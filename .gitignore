@@ -1,0 +1,35 @@
+# Python
+pycache/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual Env
+.venv/
+venv/
+
+# PyCharm
+.idea/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Temp
+temp/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Large Data
+*.csv
+*.xlsx
+*.parquet
+
+# Model files
+*.pkl
+*.joblib
+*.h5
+
+snookerdb/
