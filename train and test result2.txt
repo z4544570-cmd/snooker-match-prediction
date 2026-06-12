@@ -1,0 +1,291 @@
+C:\Users\赵梓健\PyCharmMiscProject\.venv\Scripts\python.exe "C:\Users\赵梓健\PyCharmMiscProject\snooker predict\main.py"
+03:29:02.267 | INFO    | Flow run 'uber-pronghorn' - Beginning flow run 'uber-pronghorn' for flow 'main'
+03:29:02.287 | INFO    | Flow run 'uber-pronghorn' - View at https://app.prefect.cloud/account/87d8337d-24bc-4fda-ae65-7f6265eea636/workspace/70e227c3-7025-4b79-a673-f0d19409c125/runs/flow-run/06a252bc-b763-795d-8000-cf2f7f7f373d
+Index(['tourn_id', 'match_id', 'date', 'stage', 'best_of', 'player_1_score',
+       'player_2_score', 'player_1', 'player_2', 'scores', 'walkover',
+       'player', 'nationality', 'dates', 'tournament_name', 'season',
+       'category'],
+      dtype='object')
+=== 开始训练模式 ===
+==================================================
+Loading Data...
+==================================================
+样本数: 85121
+特征维度: 40
+
+类别0数量: 21385 | 类别1数量: 46711
+scale_pos_weight = 0.4578
+==================================================
+Training...
+==================================================
+
+====================
+FEATURE CONTRIBUTION CHECK
+====================
+feature 32 | value=0.0000 | importance=0.561051
+feature 33 | value=0.0000 | importance=0.123472
+feature 30 | value=8.0000 | importance=0.065940
+feature 38 | value=1.0000 | importance=0.030963
+feature 27 | value=2.0000 | importance=0.009704
+feature 31 | value=0.0000 | importance=0.009146
+feature 29 | value=6.0000 | importance=0.008059
+feature  4 | value=0.1357 | importance=0.006899
+feature  2 | value=0.1088 | importance=0.006709
+feature 28 | value=19.0000 | importance=0.006662
+feature 39 | value=2.0000 | importance=0.006439
+feature  8 | value=0.3652 | importance=0.006411
+feature 25 | value=0.0331 | importance=0.006388
+feature  9 | value=0.5703 | importance=0.006331
+feature 12 | value=0.3069 | importance=0.006277
+Training completed.
+==================================================
+Test Result
+==================================================
+Accuracy = 0.5692
+AUC      = 0.6708
+
+Classification Report
+              precision    recall  f1-score   support
+
+           0       0.40      0.79      0.53      5347
+           1       0.83      0.47      0.60     11678
+
+    accuracy                           0.57     17025
+   macro avg       0.62      0.63      0.57     17025
+weighted avg       0.69      0.57      0.58     17025
+
+Confusion Matrix
+[[4203 1144]
+ [6191 5487]]
+==================================================
+5-Fold Cross Validation
+==================================================
+Fold Accuracy:
+[0.56328928 0.56414474 0.55151551 0.56637688 0.56479088]
+
+Mean Accuracy = 0.5620
+Std Accuracy  = 0.0054
+==================================================
+Feature Importance
+==================================================
+    feature_id  importance
+32          32    0.561051
+33          33    0.123472
+30          30    0.065940
+38          38    0.030963
+27          27    0.009704
+31          31    0.009146
+29          29    0.008059
+4            4    0.006899
+2            2    0.006709
+28          28    0.006662
+39          39    0.006439
+8            8    0.006411
+25          25    0.006388
+9            9    0.006331
+12          12    0.006277
+10          10    0.006267
+3            3    0.006244
+0            0    0.006228
+18          18    0.006198
+11          11    0.006159
+26          26    0.006076
+6            6    0.005979
+19          19    0.005968
+14          14    0.005961
+23          23    0.005914
+15          15    0.005912
+5            5    0.005907
+24          24    0.005897
+22          22    0.005882
+13          13    0.005837
+
+===============
+MODEL CHECK
+===============
+classes_ = [0 1]
+✅ 模型已保存为 p_base_model.pkl
+03:31:33.762 | INFO    | Flow run 'uber-pronghorn' - Finished in state Completed()
+03:31:39.101 | INFO    | Flow run 'acrid-mastiff' - Beginning flow run 'acrid-mastiff' for flow 'main'
+03:31:39.102 | INFO    | Flow run 'acrid-mastiff' - View at https://app.prefect.cloud/account/87d8337d-24bc-4fda-ae65-7f6265eea636/workspace/70e227c3-7025-4b79-a673-f0d19409c125/runs/flow-run/06a252c6-7ae9-71e8-8000-596add20e39b
+Index(['tourn_id', 'match_id', 'date', 'stage', 'best_of', 'player_1_score',
+       'player_2_score', 'player_1', 'player_2', 'scores', 'walkover',
+       'player', 'nationality', 'dates', 'tournament_name', 'season',
+       'category'],
+      dtype='object')
+=== 开始预测模式 ===
+✅ 已成功加载已有模型
+请输入需要预测的局数：2
+请输入player1名：Zhao Xinton
+请输入player2名：Mark William
+请输入本局Zhao Xinton总得分：6
+请输入本局Mark William总得分：96
+请输入本局Zhao Xinton单杆，如有2个单杆用逗号隔开，如无enter：
+请输入本局Mark William单杆，如有2个单杆用逗号隔开，如无enter：96
+请输入最近6局的胜负序列，Zhao Xinton胜为1，Mark William胜为0，用空格隔开：0 1 1 0 0 0
+请输入BO：35
+请输入当前Zhao Xinton大比分：17
+请输入当前Mark William大比分：11
+
+========FEATURE MAP==========
+0 pre_0
+1 pre_1
+2 pre_2
+3 pre_3
+4 pre_4
+5 pre_5
+6 pre_6
+7 pre_7
+8 pre_8
+9 pre_9
+10 pre_10
+11 pre_11
+12 pre_12
+13 pre_13
+14 pre_14
+15 pre_15
+16 pre_16
+17 pre_17
+18 pre_18
+19 pre_19
+20 pre_20
+21 pre_21
+22 pre_22
+23 pre_23
+24 pre_24
+25 pre_25
+26 pre_26
+27 current_m_diff
+28 BO
+29 frame_to_win_1
+30 frame_to_win_2
+31 match_point_1
+32 match_point_2
+33 decider
+34 streak_1
+35 streak_2
+36 win_rate3_1
+37 win_rate3_2
+38 leader
+39 signed_max_diff
+
+====================
+MID VECTOR CHECK
+====================
+current_m_diff      : 6
+BO                  : 35
+frame_to_win_1      : 1
+frame_to_win_2      : 7
+match_point_1       : 1
+match_point_2       : 0
+decider             : 0
+streak_1            : 2
+streak_2            : 3
+win_rate3_1         : 0.0
+win_rate3_2         : 1.0
+leader              : 1
+signed_max_diff     : 9
+本次v3:[np.int64(6), np.int64(35), np.int64(1), np.int64(7), 1, 0, 0, 2, 3, 0.0, 1.0, 1, np.int64(9)]
+长度：13
+
+====================
+X CHECK
+====================
+X shape = (1, 40)
+Last 13 features:
+[ 6. 35.  1.  7.  1.  0.  0.  2.  3.  0.  1.  1.  9.]
+
+====================
+PROBA CHECK
+====================
+P(class=0) = 0.6714958
+P(class=1) = 0.3285042
+下一局 1号球员胜率预测: 0.3285 (32.85%)
+请输入player1名：Zhao Xinton
+请输入player2名：Mark William
+请输入本局Zhao Xinton总得分：0
+请输入本局Mark William总得分：73
+请输入本局Zhao Xinton单杆，如有2个单杆用逗号隔开，如无enter：
+请输入本局Mark William单杆，如有2个单杆用逗号隔开，如无enter：73
+请输入最近6局的胜负序列，Zhao Xinton胜为1，Mark William胜为0，用空格隔开：1 1 0 0 0 0
+请输入BO：35
+请输入当前Zhao Xinton大比分：17
+请输入当前Mark William大比分：12
+
+========FEATURE MAP==========
+0 pre_0
+1 pre_1
+2 pre_2
+3 pre_3
+4 pre_4
+5 pre_5
+6 pre_6
+7 pre_7
+8 pre_8
+9 pre_9
+10 pre_10
+11 pre_11
+12 pre_12
+13 pre_13
+14 pre_14
+15 pre_15
+16 pre_16
+17 pre_17
+18 pre_18
+19 pre_19
+20 pre_20
+21 pre_21
+22 pre_22
+23 pre_23
+24 pre_24
+25 pre_25
+26 pre_26
+27 current_m_diff
+28 BO
+29 frame_to_win_1
+30 frame_to_win_2
+31 match_point_1
+32 match_point_2
+33 decider
+34 streak_1
+35 streak_2
+36 win_rate3_1
+37 win_rate3_2
+38 leader
+39 signed_max_diff
+
+====================
+MID VECTOR CHECK
+====================
+current_m_diff      : 5
+BO                  : 35
+frame_to_win_1      : 1
+frame_to_win_2      : 6
+match_point_1       : 1
+match_point_2       : 0
+decider             : 0
+streak_1            : 2
+streak_2            : 4
+win_rate3_1         : 0.0
+win_rate3_2         : 1.0
+leader              : 1
+signed_max_diff     : 9
+本次v3:[np.int64(5), np.int64(35), np.int64(1), np.int64(6), 1, 0, 0, 2, 4, 0.0, 1.0, 1, np.int64(9)]
+长度：13
+
+====================
+X CHECK
+====================
+X shape = (1, 40)
+Last 13 features:
+[ 5. 35.  1.  6.  1.  0.  0.  2.  4.  0.  1.  1.  9.]
+
+====================
+PROBA CHECK
+====================
+P(class=0) = 0.6552752
+P(class=1) = 0.34472474
+下一局 1号球员胜率预测: 0.3447 (34.47%)
+03:34:21.373 | INFO    | Flow run 'acrid-mastiff' - Finished in state Completed()
+
+进程已结束，退出代码为 0

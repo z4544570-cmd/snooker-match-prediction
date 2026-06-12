@@ -1,5 +1,8 @@
 import numpy as np
+from numpy.ma.extras import ndenumerate
 from scipy.stats import entropy
+from sympy.codegen.ast import continue_
+
 from pre_feature import parse_frame_score
 from collections import Counter
 import pandas as pd
@@ -161,7 +164,7 @@ def get_various_matches_set(df):
     #临世锦赛及世锦赛
     df_back = df_Rankings[df_Rankings["period"] == "临世锦赛及世锦赛时期"].copy()
 
-    various_set.extend([df_TC, df_Rankings, df_MinorRankings, df_Invitational, df_Qualifier, df_Final, df_SemiFinal, df_last8, df_last16, df_BO17, df_BO19, df_BO25, df_BO33, df_BO35, df_90s, df_00s, df_10s, df_20s, df_front, df_middle, df_back])
+    various_set.extend([df_TC, df_Invitational, df_Qualifier, df_Final, df_SemiFinal, df_last8, df_last16, df_BO17, df_BO19, df_BO25, df_BO33, df_BO35, df_90s, df_00s, df_10s, df_20s])
     return various_set
 
 def get_win_sequence_dataset(df):
@@ -171,48 +174,71 @@ def get_win_sequence_dataset(df):
     1 = player2赢该局
     """
 
+    # =========================
     # 转为单行比赛格式
+    # =========================
     df = turn_df_agg_into_single(df)
 
-    # 只保留需要列
     df = df[
-        ["match_id", "player_1_score", "player_2_score", "best_of", "scores"]
+        ["match_id", "player_1_score",
+         "player_2_score", "best_of", "scores"]
     ].copy()
 
     # =========================
     # 拆分 scores
     # =========================
-    df["scores"] = df["scores"].astype(str).str.split(";")
+    df["scores"] = (
+        df["scores"]
+        .astype(str)
+        .str.split(";")
+    )
 
     # 一局一行
     df = df.explode("scores")
 
-    # parse_frame_score:
-    # 正常返回 (p1_frame, p2_frame)
-    # 异常返回 None
-    df["scores"] = df["scores"].apply(parse_frame_score)
-
-    # 删除 None
-    df = df.dropna(subset=["scores"])
+    # parse
+    df["scores"] = (
+        df["scores"]
+        .apply(parse_frame_score)
+    )
 
     # =========================
-    # 检查非法 scores
+    # 找出非法局
     # =========================
     mask = df["scores"].apply(
-        lambda x: isinstance(x, tuple) and len(x) == 2
+        lambda x:
+        isinstance(x, tuple)
+        and len(x) == 2
     )
 
     bad_rows = df.loc[~mask]
 
     if len(bad_rows) > 0:
+
         print("\n发现非法 scores 数据：")
+
         print(
-            bad_rows.loc[:, ["match_id", "scores"]]
-            .head(50)
+            bad_rows[
+                ["match_id", "scores"]
+            ].head(50)
         )
 
-    # 只保留合法 tuple
-    df = df.loc[mask].copy()
+    # =========================
+    # 删除整场坏比赛
+    # =========================
+    bad_match_ids = (
+        bad_rows["match_id"]
+        .unique()
+    )
+
+    print(
+        f"\n删除坏比赛数量: {len(bad_match_ids)}"
+    )
+
+    df = df[
+        ~df["match_id"]
+        .isin(bad_match_ids)
+    ].copy()
 
     # =========================
     # 展开 tuple
@@ -223,16 +249,19 @@ def get_win_sequence_dataset(df):
         index=df.index
     )
 
-    df = pd.concat([df, score_df], axis=1)
+    df = pd.concat(
+        [df, score_df],
+        axis=1
+    )
 
-    # 删除原始 scores
     df = df.drop(columns=["scores"])
 
     # =========================
     # 每局胜负
     # =========================
     df["p1_win"] = (
-        df["p1_frame"] > df["p2_frame"]
+        df["p1_frame"]
+        > df["p2_frame"]
     ).astype(int)
 
     # =========================
@@ -242,7 +271,7 @@ def get_win_sequence_dataset(df):
 
     grouped = df.groupby("match_id")
 
-    print("正在处理所有比赛的滑动窗口...")
+    print("\n正在处理滑动窗口...")
 
     for match_id, group in tqdm(
             grouped,
@@ -250,33 +279,42 @@ def get_win_sequence_dataset(df):
             desc="处理比赛"
     ):
 
-        # 至少需要7局
         if len(group) < 7:
             continue
 
-        win_series = group["p1_win"].values
+        win_series = (
+            group["p1_win"]
+            .values
+        )
 
-        # 长度6窗口
-        for i in range(len(win_series) - 5):
+        for i in range(
+                len(win_series) - 5
+        ):
 
             seq = tuple(
                 win_series[i:i + 6]
             )
 
             sequences.append(seq)
+        sequences.append(1)
 
     return sequences
 
 
-def analyze_top_sequences(sequences, top_n=20):
+def analyze_top_sequences(sequences, top_n=32):
     """统计最常见的6局胜负序列，并考虑镜像对称"""
 
     def normalize(seq):
+        if seq == 1:
+            return None
+
+        # 关键修复：强制转为 Python int
         seq = tuple(int(x) for x in seq)
+
         flipped = tuple(1 - x for x in seq)
         return min(seq, flipped)
 
-    normalized = [normalize(seq) for seq in sequences]
+    normalized = [normalize(seq) for seq in sequences if normalize(seq) is not None]
     count = Counter(normalized)
 
     print(f"\n总共生成 {len(sequences)} 个6局窗口")
@@ -284,5 +322,117 @@ def analyze_top_sequences(sequences, top_n=20):
 
     print(f"前 {top_n} 最常见的6局胜负序列：")
     for seq, cnt in count.most_common(top_n):
-        flipped = tuple(1 - x for x in seq)
         print(f"{cnt:6d} 次 | {seq}")
+
+def get_single_seq(sequences):       #未做normalized，输出都是64个序列版本的
+    """
+    :param sequences: 一个列表，每个元素是一个元组seq（胜负序列）或1，1分隔开各场比赛
+    :return: result: 一个列表，每个元素（一场比赛）是一个每个元素是一个元组(一个窗口)的列表
+    :return: matrix_into_num: 一个np数组，与result类似，但元组按照字典被映射到了模式序号
+    :return: mode_dict: 一个字典，键是窗口，值是模式序号，从1开始
+    """
+    def normalize(seq):
+        if seq == 1:
+            return 1
+        else:
+            flipped = tuple(1 - x for x in seq)
+            seq = tuple(int(x) for x in seq)
+        return min(flipped, seq)
+
+    result = []
+    current_group = []
+    mode_dict = {}
+
+    sequences = [normalize(seq) for seq in sequences]   # 因为get_single_seq函数仅用于模式分析，因此可以将sequences内的窗口都统一化，避免镜像
+
+    for seq in sequences:
+        if seq == 1:
+            if current_group:
+                result.append(current_group)
+                current_group = []
+        else:
+            current_group.append(seq)           #current里面会有
+            if seq not in mode_dict.keys():
+                seq = tuple(int(x) for x in seq)
+                mode_dict[seq] = len(mode_dict) + 1
+
+    # mode_dict加应对(0, 0, 0, 0, 0, 0)的情况
+    mode_dict[(2, 2, 2, 2, 2, 2)] = 1000
+
+    #补齐result各行的长度
+    max_length = max(len(row) for row in result)
+    filled_result = []
+    for row in result:
+        padded_row = row + [(2, 2, 2, 2, 2, 2)] * (max_length - len(row))
+        filled_result.append(padded_row)
+
+    def match_no(list):
+        return mode_dict[tuple(list)]
+
+    #转成3维列表
+    for i in range(len(filled_result)):
+        for j in range(len(filled_result[i])):
+            filled_result[i][j] = list(filled_result[i][j])
+            filled_result[i][j] = match_no(filled_result[i][j])
+
+    return filled_result, mode_dict
+
+def get_change_time(list):
+    """
+    :param list:传入filled_result
+    :return change:键是所有比赛出现过的转换，值是次数，如3-8: 6代表胜负序列3向胜负序列8转换过6次
+    """
+    change = {}
+    def single_matrix(list):
+        """
+        :param: matrix_into_num的一个维度，即一场比赛
+        :return:一个模式序号维度的np数组，每个位置是转化次数
+        """
+        result = [str(list[i-1]) + "-" + str(list[i]) for i in range(1, len(list)) if list[i] != 1000]
+        for item in result:
+            if item not in change.keys():
+                change[item] = 1
+            else:
+                change[item] += 1
+
+    for row in list:
+        single_matrix(row)
+
+    return change
+
+def probability_matrix(dict1, dict2):  #dict1:change; dict2:mode_dict
+    n = len(dict2)
+    arr = np.zeros((n, n), dtype=float)
+    for i in range(n):
+        for j in range(n):
+            arr[i, j] = dict1.get(f"{i+1}-{j+1}", 0)
+
+    for i in range(n):
+        if sum(arr[i, :]) != 0:
+            arr[i, :] /= sum(arr[i, :])
+
+
+    #for (i, j), value in np.ndenumerate(arr):
+     #   if value != 0:
+      #      print(f"模式{i+1}到模式{j+1}的转换概率：{value}")
+    return arr
+
+def get_probability(arr, dict):
+    """
+    根据输入的序列，从对应的转换概率数组中，匹配相应转换概率
+    :param arr: 转换概率数组
+    :return: 该模式转化成各模式的概率
+    """
+    reverse_mode_dict = {v:k for k, v in dict.items()}
+    print(reverse_mode_dict)
+    user_input = input("请输入模式，每个数字之间用空格隔开：")
+    mode = tuple(map(int, user_input.split(" ")))
+    mode_flipped = tuple(1-x for x in mode)
+    mode = min(mode, mode_flipped)
+    mode_no = dict[mode]
+    for j, value in enumerate(arr[mode_no - 1]):
+        if value != 0:
+            print(f"转换成模式{reverse_mode_dict[j + 1]}的概率: {value}")
+
+
+

@@ -1,0 +1,52 @@
+Grok:
+def switch_score(score: str):
+    """
+    将比分字符串左右对调
+    示例: "10-8; 9-11; 12-7" → "8-10; 11-9; 7-12"
+    """
+    if not isinstance(score, str) or not score.strip():
+        return None
+    
+    # 按分号分割每一局比分
+    frames = [f.strip() for f in score.strip().split(';') if f.strip()]
+    
+    switched = []
+    for frame in frames:
+        if '-' not in frame:
+            switched.append(frame)      # 没有 '-' 的保持原样
+            continue
+            
+        # 左右对调
+        left, right = frame.split('-', 1)   # 只按第一个 '-' 分割
+        switched.append(f"{right.strip()}-{left.strip()}")
+    
+    # 重新拼接
+    result = "; ".join(switched)
+    return result
+
+我：
+def switch_score(score: str):
+
+    frames = []
+    switch_scores = []
+    frames.append(score.strip().split(';'))
+
+    for frame in frames:
+        frame = frame.strip()
+
+        if not isinstance(frame, str):
+            return None
+
+        left_part = frame.split('-')[0]
+        right_part = frame.split('-')[-1]
+
+        frame = right_part + "-" + left_part
+        switch_scores.append(frame)
+
+    switch_score = ""
+    for score in switch_scores:
+        switch_score += score
+        switch_score += ";"
+        switch_score += " "
+
+    return switch_score

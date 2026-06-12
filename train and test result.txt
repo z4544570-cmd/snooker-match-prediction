@@ -1,0 +1,416 @@
+C:\Users\赵梓健\PyCharmMiscProject\.venv\Scripts\python.exe "C:\Users\赵梓健\PyCharmMiscProject\snooker predict\main.py"
+01:47:53.902 | INFO    | Flow run 'fabulous-tapir' - Beginning flow run 'fabulous-tapir' for flow 'main'
+01:47:53.915 | INFO    | Flow run 'fabulous-tapir' - View at https://app.prefect.cloud/account/87d8337d-24bc-4fda-ae65-7f6265eea636/workspace/70e227c3-7025-4b79-a673-f0d19409c125/runs/flow-run/06a25141-68d0-7f66-8000-527dfc82009e
+Index(['tourn_id', 'match_id', 'date', 'stage', 'best_of', 'player_1_score',
+       'player_2_score', 'player_1', 'player_2', 'scores', 'walkover',
+       'player', 'nationality', 'dates', 'tournament_name', 'season',
+       'category'],
+      dtype='object')
+=== 开始训练模式 ===
+==================================================
+Loading Data...
+==================================================
+样本数: 85121
+特征维度: 40
+
+类别0数量: 21385 | 类别1数量: 46711
+scale_pos_weight = 0.4578
+==================================================
+Training...
+==================================================
+Training completed.
+==================================================
+Test Result
+==================================================
+Accuracy = 0.5692
+AUC      = 0.6708
+
+Classification Report
+              precision    recall  f1-score   support
+
+           0       0.40      0.79      0.53      5347
+           1       0.83      0.47      0.60     11678
+
+    accuracy                           0.57     17025
+   macro avg       0.62      0.63      0.57     17025
+weighted avg       0.69      0.57      0.58     17025
+
+Confusion Matrix
+[[4203 1144]
+ [6191 5487]]
+==================================================
+5-Fold Cross Validation
+==================================================
+Fold Accuracy:
+[0.56328928 0.56414474 0.55151551 0.56637688 0.56479088]
+
+Mean Accuracy = 0.5620
+Std Accuracy  = 0.0054
+==================================================
+Feature Importance
+==================================================
+feature:（总胜场数 总平场数 总胜局数 总胜败场比 总胜败局比 上赛季胜场数 上赛季胜局数 上赛季胜败场比 上赛季胜败局比 当赛季胜场数 当赛季胜局数 当赛季胜败场比 当赛季胜败局比 总决胜局胜率 上赛季决胜局胜率 当赛季决胜局胜率 长局制（17及以上）胜率 短局制（11及以下）胜率 逆转率 被逆转率 横扫率 被横扫率 连鞭率 被连鞭率 排名赛 排名赛胜场率 排名赛决赛)(pre_vector做diff) +     mid_vector = [current_m_diff, BO, frame_to_win_1, frame_to_win_2, match_point_1, match_point_2, decider, streak_1, streak_2, win_rate3_1, win_rate3_2, leader, signed_max_diff]
+
+    feature_id  importance
+32          32    0.561051
+33          33    0.123472
+30          30    0.065940
+38          38    0.030963
+27          27    0.009704
+31          31    0.009146
+29          29    0.008059
+4            4    0.006899
+2            2    0.006709
+28          28    0.006662
+39          39    0.006439
+8            8    0.006411
+25          25    0.006388
+9            9    0.006331
+12          12    0.006277
+10          10    0.006267
+3            3    0.006244
+0            0    0.006228
+18          18    0.006198
+11          11    0.006159
+26          26    0.006076
+6            6    0.005979
+19          19    0.005968
+14          14    0.005961
+23          23    0.005914
+15          15    0.005912
+5            5    0.005907
+24          24    0.005897
+22          22    0.005882
+13          13    0.005837
+✅ 模型已保存为 p_base_model.pkl
+01:50:45.911 | INFO    | Flow run 'fabulous-tapir' - Finished in state Completed()
+
+进程已结束，退出代码为 0
+
+
+C:\Users\赵梓健\PyCharmMiscProject\.venv\Scripts\python.exe "C:\Users\赵梓健\PyCharmMiscProject\snooker predict\main.py"
+01:52:42.477 | INFO    | Flow run 'whispering-dolphin' - Beginning flow run 'whispering-dolphin' for flow 'main'
+01:52:42.490 | INFO    | Flow run 'whispering-dolphin' - View at https://app.prefect.cloud/account/87d8337d-24bc-4fda-ae65-7f6265eea636/workspace/70e227c3-7025-4b79-a673-f0d19409c125/runs/flow-run/06a25153-6975-795f-8000-cf173b9ab0cb
+Index(['tourn_id', 'match_id', 'date', 'stage', 'best_of', 'player_1_score',
+       'player_2_score', 'player_1', 'player_2', 'scores', 'walkover',
+       'player', 'nationality', 'dates', 'tournament_name', 'season',
+       'category'],
+      dtype='object')
+=== 开始预测模式 ===
+✅ 已成功加载已有模型
+请输入需要预测的局数：24
+请输入player1名：Zhao Xintong
+请输入player2名：Mark Williams
+请输入本局Zhao Xintong总得分：71
+请输入本局Mark Williams总得分：61
+请输入本局Zhao Xintong单杆，如有2个单杆用逗号隔开，如无enter：
+请输入本局Mark Williams单杆，如有2个单杆用逗号隔开，如无enter：61
+请输入最近6局的胜负序列，Zhao Xintong胜为1，Mark Williams胜为0，用空格隔开：1 1 1 0 1 1
+请输入BO：35
+请输入当前Zhao Xintong大比分：5
+请输入当前Mark Williams大比分：1
+本次v3:[np.int64(4), np.int64(35), np.int64(13), np.int64(17), 0, 0, 0, 2, 1, 0.6666666666666666, 0.33333333333333337, 1, np.int64(4)]
+长度：13
+下一局 1号球员胜率预测: 0.3643 (36.43%)
+请输入player1名：Zhao Xintong
+请输入player2名：Mark Williams
+请输入本局Zhao Xintong总得分：119
+请输入本局Mark Williams总得分：0
+请输入本局Zhao Xintong单杆，如有2个单杆用逗号隔开，如无enter：104
+请输入本局Mark Williams单杆，如有2个单杆用逗号隔开，如无enter：
+请输入最近6局的胜负序列，Zhao Xintong胜为1，Mark Williams胜为0，用空格隔开：1 1 0 1 1 1
+请输入BO：35
+请输入当前Zhao Xintong大比分：6
+请输入当前Mark Williams大比分：1
+本次v3:[np.int64(5), np.int64(35), np.int64(12), np.int64(17), 0, 0, 0, 3, 1, 1.0, 0.0, 1, np.int64(5)]
+长度：13
+下一局 1号球员胜率预测: 0.3894 (38.94%)
+请输入player1名：Zhao Xintong
+请输入player2名：Mark Williams
+请输入本局Zhao Xintong总得分：95
+请输入本局Mark Williams总得分：0
+请输入本局Zhao Xintong单杆，如有2个单杆用逗号隔开，如无enter：83
+请输入本局Mark Williams单杆，如有2个单杆用逗号隔开，如无enter：
+请输入最近6局的胜负序列，Zhao Xintong胜为1，Mark Williams胜为0，用空格隔开：1 0 1 1 1 1
+请输入BO：35
+请输入当前Zhao Xintong大比分：7
+请输入当前Mark Williams大比分：1
+本次v3:[np.int64(6), np.int64(35), np.int64(11), np.int64(17), 0, 0, 0, 4, 1, 1.0, 0.0, 1, np.int64(6)]
+长度：13
+下一局 1号球员胜率预测: 0.3627 (36.27%)
+请输入player1名：Zhao Xintong
+请输入player2名：Mark Williams
+请输入本局Zhao Xintong总得分：0
+请输入本局Mark Williams总得分：86
+请输入本局Zhao Xintong单杆，如有2个单杆用逗号隔开，如无enter：
+请输入本局Mark Williams单杆，如有2个单杆用逗号隔开，如无enter：86
+请输入最近6局的胜负序列，Zhao Xintong胜为1，Mark Williams胜为0，用空格隔开：0 1 1 1 1 0
+请输入BO：35
+请输入当前Zhao Xintong大比分：7
+请输入当前Mark Williams大比分：2
+本次v3:[np.int64(5), np.int64(35), np.int64(11), np.int64(16), 0, 0, 0, 4, 1, 0.6666666666666666, 0.33333333333333337, 1, np.int64(6)]
+长度：13
+下一局 1号球员胜率预测: 0.3850 (38.50%)
+请输入player1名：Zhao Xintong
+请输入player2名：Mark Williams
+请输入本局Zhao Xintong总得分：8
+请输入本局Mark Williams总得分：65
+请输入本局Zhao Xintong单杆，如有2个单杆用逗号隔开，如无enter：
+请输入本局Mark Williams单杆，如有2个单杆用逗号隔开，如无enter：
+请输入最近6局的胜负序列，Zhao Xintong胜为1，Mark Williams胜为0，用空格隔开：1 1 1 1 0 0
+请输入BO：35
+请输入当前Zhao Xintong大比分：7
+请输入当前Mark Williams大比分：3
+本次v3:[np.int64(4), np.int64(35), np.int64(11), np.int64(15), 0, 0, 0, 4, 2, 0.3333333333333333, 0.6666666666666667, 1, np.int64(6)]
+长度：13
+下一局 1号球员胜率预测: 0.4102 (41.02%)
+请输入player1名：Zhao Xintong
+请输入player2名：Mark Williams
+请输入本局Zhao Xintong总得分：85
+请输入本局Mark Williams总得分：9
+请输入本局Zhao Xintong单杆，如有2个单杆用逗号隔开，如无enter：71
+请输入本局Mark Williams单杆，如有2个单杆用逗号隔开，如无enter：
+请输入最近6局的胜负序列，Zhao Xintong胜为1，Mark Williams胜为0，用空格隔开：1 1 1 0 0 1
+请输入BO：35
+请输入当前Zhao Xintong大比分：8
+请输入当前Mark Williams大比分：3
+本次v3:[np.int64(5), np.int64(35), np.int64(10), np.int64(15), 0, 0, 0, 1, 2, 0.3333333333333333, 0.6666666666666667, 1, np.int64(6)]
+长度：13
+下一局 1号球员胜率预测: 0.4106 (41.06%)
+请输入player1名：Zhao Xintong
+请输入player2名：Mark Williams
+请输入本局Zhao Xintong总得分：74
+请输入本局Mark Williams总得分：0
+请输入本局Zhao Xintong单杆，如有2个单杆用逗号隔开，如无enter：56
+请输入本局Mark Williams单杆，如有2个单杆用逗号隔开，如无enter：
+请输入最近6局的胜负序列，Zhao Xintong胜为1，Mark Williams胜为0，用空格隔开：1 1 0 0 1 1
+请输入BO：35
+请输入当前Zhao Xintong大比分：9
+请输入当前Mark Williams大比分：3
+本次v3:[np.int64(6), np.int64(35), np.int64(9), np.int64(15), 0, 0, 0, 2, 2, 0.6666666666666666, 0.33333333333333337, 1, np.int64(6)]
+长度：13
+下一局 1号球员胜率预测: 0.3899 (38.99%)
+请输入player1名：Zhao Xintong
+请输入player2名：Mark Williams
+请输入本局Zhao Xintong总得分：14
+请输入本局Mark Williams总得分：62
+请输入本局Zhao Xintong单杆，如有2个单杆用逗号隔开，如无enter：
+请输入本局Mark Williams单杆，如有2个单杆用逗号隔开，如无enter：
+请输入最近6局的胜负序列，Zhao Xintong胜为1，Mark Williams胜为0，用空格隔开：1 0 0 1 1 0
+请输入BO：35
+请输入当前Zhao Xintong大比分：9
+请输入当前Mark Williams大比分：4
+本次v3:[np.int64(5), np.int64(35), np.int64(9), np.int64(14), 0, 0, 0, 2, 1, 0.6666666666666666, 0.33333333333333337, 1, np.int64(6)]
+长度：13
+下一局 1号球员胜率预测: 0.3824 (38.24%)
+请输入player1名：Zhao Xintong
+请输入player2名：Mark Williams
+请输入本局Zhao Xintong总得分：0
+请输入本局Mark Williams总得分：72
+请输入本局Zhao Xintong单杆，如有2个单杆用逗号隔开，如无enter：
+请输入本局Mark Williams单杆，如有2个单杆用逗号隔开，如无enter：72
+请输入最近6局的胜负序列，Zhao Xintong胜为1，Mark Williams胜为0，用空格隔开：0 0 1 1 0 0
+请输入BO：35
+请输入当前Zhao Xintong大比分：9
+请输入当前Mark Williams大比分：5
+本次v3:[np.int64(4), np.int64(35), np.int64(9), np.int64(13), 0, 0, 0, 2, 2, 0.3333333333333333, 0.6666666666666667, 1, np.int64(6)]
+长度：13
+下一局 1号球员胜率预测: 0.4123 (41.23%)
+请输入player1名：Zhao Xintong
+请输入player2名：Mark Williams
+请输入本局Zhao Xintong总得分：96
+请输入本局Mark Williams总得分：23
+请输入本局Zhao Xintong单杆，如有2个单杆用逗号隔开，如无enter：96
+请输入本局Mark Williams单杆，如有2个单杆用逗号隔开，如无enter：
+请输入最近6局的胜负序列，Zhao Xintong胜为1，Mark Williams胜为0，用空格隔开：0 1 1 0 0 1
+请输入BO：35
+请输入当前Zhao Xintong大比分：10
+请输入当前Mark Williams大比分：5
+本次v3:[np.int64(5), np.int64(35), np.int64(8), np.int64(13), 0, 0, 0, 1, 2, 0.3333333333333333, 0.6666666666666667, 1, np.int64(6)]
+长度：13
+下一局 1号球员胜率预测: 0.4160 (41.60%)
+请输入player1名：Zhao Xintong
+请输入player2名：Mark Williams
+请输入本局Zhao Xintong总得分：71
+请输入本局Mark Williams总得分：63
+请输入本局Zhao Xintong单杆，如有2个单杆用逗号隔开，如无enter：71
+请输入本局Mark Williams单杆，如有2个单杆用逗号隔开，如无enter：63
+请输入最近6局的胜负序列，Zhao Xintong胜为1，Mark Williams胜为0，用空格隔开：1 1 0 0 1 1
+请输入BO：35
+请输入当前Zhao Xintong大比分：11
+请输入当前Mark Williams大比分：5
+本次v3:[np.int64(6), np.int64(35), np.int64(7), np.int64(13), 0, 0, 0, 2, 2, 0.6666666666666666, 0.33333333333333337, 1, np.int64(6)]
+长度：13
+下一局 1号球员胜率预测: 0.4054 (40.54%)
+请输入player1名：Zhao Xintong
+请输入player2名：Mark Williams
+请输入本局Zhao Xintong总得分：43
+请输入本局Mark Williams总得分：71
+请输入本局Zhao Xintong单杆，如有2个单杆用逗号隔开，如无enter：
+请输入本局Mark Williams单杆，如有2个单杆用逗号隔开，如无enter：
+请输入最近6局的胜负序列，Zhao Xintong胜为1，Mark Williams胜为0，用空格隔开：1 0 0 1 1 0
+请输入BO：35
+请输入当前Zhao Xintong大比分：11
+请输入当前Mark Williams大比分：6
+本次v3:[np.int64(5), np.int64(35), np.int64(7), np.int64(12), 0, 0, 0, 2, 1, 0.6666666666666666, 0.33333333333333337, 1, np.int64(6)]
+长度：13
+下一局 1号球员胜率预测: 0.4027 (40.27%)
+请输入player1名：Zhao Xintong
+请输入player2名：Mark Williams
+请输入本局Zhao Xintong总得分：76
+请输入本局Mark Williams总得分：5
+请输入本局Zhao Xintong单杆，如有2个单杆用逗号隔开，如无enter：
+请输入本局Mark Williams单杆，如有2个单杆用逗号隔开，如无enter：
+请输入最近6局的胜负序列，Zhao Xintong胜为1，Mark Williams胜为0，用空格隔开：0 0 1 1 0 1
+请输入BO：35
+请输入当前Zhao Xintong大比分：12
+请输入当前Mark Williams大比分：6
+本次v3:[np.int64(6), np.int64(35), np.int64(6), np.int64(12), 0, 0, 0, 1, 1, 0.6666666666666666, 0.33333333333333337, 1, np.int64(6)]
+长度：13
+下一局 1号球员胜率预测: 0.3961 (39.61%)
+请输入player1名：Zhao Xintong
+请输入player2名：Mark Williams
+请输入本局Zhao Xintong总得分：18
+请输入本局Mark Williams总得分：66
+请输入本局Zhao Xintong单杆，如有2个单杆用逗号隔开，如无enter：
+请输入本局Mark Williams单杆，如有2个单杆用逗号隔开，如无enter：
+请输入最近6局的胜负序列，Zhao Xintong胜为1，Mark Williams胜为0，用空格隔开：0 1 1 0 1 0
+请输入BO：35
+请输入当前Zhao Xintong大比分：12
+请输入当前Mark Williams大比分：7
+本次v3:[np.int64(5), np.int64(35), np.int64(6), np.int64(11), 0, 0, 0, 1, 1, 0.3333333333333333, 0.6666666666666667, 1, np.int64(6)]
+长度：13
+下一局 1号球员胜率预测: 0.4283 (42.83%)
+请输入player1名：Zhao Xintong
+请输入player2名：Mark Williams
+请输入本局Zhao Xintong总得分：65
+请输入本局Mark Williams总得分：7
+请输入本局Zhao Xintong单杆，如有2个单杆用逗号隔开，如无enter：58
+请输入本局Mark Williams单杆，如有2个单杆用逗号隔开，如无enter：
+请输入最近6局的胜负序列，Zhao Xintong胜为1，Mark Williams胜为0，用空格隔开：1 1 0 1 0 1
+请输入BO：35
+请输入当前Zhao Xintong大比分：13
+请输入当前Mark Williams大比分：7
+本次v3:[np.int64(6), np.int64(35), np.int64(5), np.int64(11), 0, 0, 0, 1, 1, 0.6666666666666666, 0.33333333333333337, 1, np.int64(6)]
+长度：13
+下一局 1号球员胜率预测: 0.3969 (39.69%)
+请输入player1名：Zhao Xintong
+请输入player2名：Mark Williams
+请输入本局Zhao Xintong总得分：85
+请输入本局Mark Williams总得分：45
+请输入本局Zhao Xintong单杆，如有2个单杆用逗号隔开，如无enter：
+请输入本局Mark Williams单杆，如有2个单杆用逗号隔开，如无enter：
+请输入最近6局的胜负序列，Zhao Xintong胜为1，Mark Williams胜为0，用空格隔开：1 0 1 0 1 1
+请输入BO：35
+请输入当前Zhao Xintong大比分：14
+请输入当前Mark Williams大比分：7
+本次v3:[np.int64(7), np.int64(35), np.int64(4), np.int64(11), 0, 0, 0, 2, 1, 0.6666666666666666, 0.33333333333333337, 1, np.int64(7)]
+长度：13
+下一局 1号球员胜率预测: 0.3887 (38.87%)
+请输入player1名：Zhao Xintong
+请输入player2名：Mark Williams
+请输入本局Zhao Xintong总得分：104
+请输入本局Mark Williams总得分：1
+请输入本局Zhao Xintong单杆，如有2个单杆用逗号隔开，如无enter：52
+请输入本局Mark Williams单杆，如有2个单杆用逗号隔开，如无enter：
+请输入最近6局的胜负序列，Zhao Xintong胜为1，Mark Williams胜为0，用空格隔开：0 1 0 1 1 1
+请输入BO：35
+请输入当前Zhao Xintong大比分：15
+请输入当前Mark Williams大比分：7
+本次v3:[np.int64(8), np.int64(35), np.int64(3), np.int64(11), 0, 0, 0, 3, 1, 1.0, 0.0, 1, np.int64(8)]
+长度：13
+下一局 1号球员胜率预测: 0.3469 (34.69%)
+请输入player1名：Zhao Xintong
+请输入player2名：Mark Williams
+请输入本局Zhao Xintong总得分：14
+请输入本局Mark Williams总得分：84
+请输入本局Zhao Xintong单杆，如有2个单杆用逗号隔开，如无enter：
+请输入本局Mark Williams单杆，如有2个单杆用逗号隔开，如无enter：66
+请输入最近6局的胜负序列，Zhao Xintong胜为1，Mark Williams胜为0，用空格隔开：1 0 1 1 1 0
+请输入BO：35
+请输入当前Zhao Xintong大比分：15
+请输入当前Mark Williams大比分：8
+本次v3:[np.int64(7), np.int64(35), np.int64(3), np.int64(10), 0, 0, 0, 3, 1, 0.6666666666666666, 0.33333333333333337, 1, np.int64(8)]
+长度：13
+下一局 1号球员胜率预测: 0.3480 (34.80%)
+请输入player1名：Zhao Xintong
+请输入player2名：Mark Williams
+请输入本局Zhao Xintong总得分：79
+请输入本局Mark Williams总得分：26
+请输入本局Zhao Xintong单杆，如有2个单杆用逗号隔开，如无enter：67
+请输入本局Mark Williams单杆，如有2个单杆用逗号隔开，如无enter：
+请输入最近6局的胜负序列，Zhao Xintong胜为1，Mark Williams胜为0，用空格隔开：0 1 1 1 0 1
+请输入BO：35
+请输入当前Zhao Xintong大比分：16
+请输入当前Mark Williams大比分：8
+本次v3:[np.int64(8), np.int64(35), np.int64(2), np.int64(10), 0, 0, 0, 1, 1, 0.6666666666666666, 0.33333333333333337, 1, np.int64(8)]
+长度：13
+下一局 1号球员胜率预测: 0.3279 (32.79%)
+请输入player1名：Zhao Xintong
+请输入player2名：Mark Williams
+请输入本局Zhao Xintong总得分：63
+请输入本局Mark Williams总得分：36
+请输入本局Zhao Xintong单杆，如有2个单杆用逗号隔开，如无enter：
+请输入本局Mark Williams单杆，如有2个单杆用逗号隔开，如无enter：
+请输入最近6局的胜负序列，Zhao Xintong胜为1，Mark Williams胜为0，用空格隔开：1 1 1 0 1 1
+请输入BO：35
+请输入当前Zhao Xintong大比分：17
+请输入当前Mark Williams大比分：8
+本次v3:[np.int64(9), np.int64(35), np.int64(1), np.int64(10), 1, 0, 0, 2, 1, 0.6666666666666666, 0.33333333333333337, 1, np.int64(9)]
+长度：13
+下一局 1号球员胜率预测: 0.3236 (32.36%)
+请输入player1名：Zhao Xintong
+请输入player2名：Mark Williams
+请输入本局Zhao Xintong总得分：30
+请输入本局Mark Williams总得分：101
+请输入本局Zhao Xintong单杆，如有2个单杆用逗号隔开，如无enter：
+请输入本局Mark Williams单杆，如有2个单杆用逗号隔开，如无enter：101
+请输入最近6局的胜负序列，Zhao Xintong胜为1，Mark Williams胜为0，用空格隔开：1 1 0 1 1 0
+请输入BO：35
+请输入当前Zhao Xintong大比分：17
+请输入当前Mark Williams大比分：9
+本次v3:[np.int64(8), np.int64(35), np.int64(1), np.int64(9), 1, 0, 0, 2, 1, 0.6666666666666666, 0.33333333333333337, 1, np.int64(9)]
+长度：13
+下一局 1号球员胜率预测: 0.3075 (30.75%)
+请输入player1名：Zhao Xintong
+请输入player2名：Mark Williams
+请输入本局Zhao Xintong总得分：1
+请输入本局Mark Williams总得分：62
+请输入本局Zhao Xintong单杆，如有2个单杆用逗号隔开，如无enter：
+请输入本局Mark Williams单杆，如有2个单杆用逗号隔开，如无enter：
+请输入最近6局的胜负序列，Zhao Xintong胜为1，Mark Williams胜为0，用空格隔开：1 0 1 1 0 0
+请输入BO：35
+请输入当前Zhao Xintong大比分：17
+请输入当前Mark Williams大比分：10
+本次v3:[np.int64(7), np.int64(35), np.int64(1), np.int64(8), 1, 0, 0, 2, 2, 0.3333333333333333, 0.6666666666666667, 1, np.int64(9)]
+长度：13
+下一局 1号球员胜率预测: 0.3223 (32.23%)
+请输入player1名：Zhao Xintong
+请输入player2名：Mark Williams
+请输入本局Zhao Xintong总得分：6
+请输入本局Mark Williams总得分：96
+请输入本局Zhao Xintong单杆，如有2个单杆用逗号隔开，如无enter：
+请输入本局Mark Williams单杆，如有2个单杆用逗号隔开，如无enter：96
+请输入最近6局的胜负序列，Zhao Xintong胜为1，Mark Williams胜为0，用空格隔开：0 1 1 0 0 0
+请输入BO：35
+请输入当前Zhao Xintong大比分：17
+请输入当前Mark Williams大比分：11
+本次v3:[np.int64(6), np.int64(35), np.int64(1), np.int64(7), 1, 0, 0, 2, 3, 0.0, 1.0, 1, np.int64(9)]
+长度：13
+下一局 1号球员胜率预测: 0.3285 (32.85%)
+请输入player1名：Zhao Xintong
+请输入player2名：Mark Williams
+请输入本局Zhao Xintong总得分：0
+请输入本局Mark Williams总得分：73
+请输入本局Zhao Xintong单杆，如有2个单杆用逗号隔开，如无enter：
+请输入本局Mark Williams单杆，如有2个单杆用逗号隔开，如无enter：73
+请输入最近6局的胜负序列，Zhao Xintong胜为1，Mark Williams胜为0，用空格隔开：1 1 0 0 0 0
+请输入BO：35
+请输入当前Zhao Xintong大比分：17
+请输入当前Mark Williams大比分：12
+本次v3:[np.int64(5), np.int64(35), np.int64(1), np.int64(6), 1, 0, 0, 2, 4, 0.0, 1.0, 1, np.int64(9)]
+长度：13
+下一局 1号球员胜率预测: 0.3447 (34.47%)
+02:18:31.473 | INFO    | Flow run 'whispering-dolphin' - Finished in state Completed()
+
+进程已结束，退出代码为 0

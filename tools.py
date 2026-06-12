@@ -1,3 +1,6 @@
+import re
+import pandas as pd
+
 def get_decade(date_str):
     """
     输入: "2005-12-13" 或 "2005-12-12 - 12-13"
@@ -29,10 +32,55 @@ def get_decade(date_str):
     else:
         return f"{decade}s"
 
+def parse_frame_score_keep_break(frame):
+    """
+    支持左右两边都有括号的情况
+    输入示例:
+        '110(75)-124(64, 60)'   → 左右都有
+        '8-124(64, 60)'         → 只有右边
+        '110(75)-44'            → 只有左边
+        '100-30'                → 都没有
 
-import re
-import pandas as pd
+    返回: (main_score, p1_break, p2_break)
+    """
+    if not isinstance(frame, str):
+        return None, None, None
 
+    frame = frame.strip()
+
+    # 提取所有括号内容
+    break_matches = re.findall(r'\(([\d\s,]+)\)', frame)
+
+    p1_break = None
+    p2_break = None
+
+    # 判断括号位置
+    if break_matches:
+        # 找到左边和右边的括号
+        left_part = frame.split('-')[0]
+        right_part = frame.split('-')[-1]
+
+        if re.search(r'\(', left_part):  # 左边有括号 → Player1
+            numbers = [int(x) for x in re.findall(r'\d+', break_matches[0])]
+            p1_break = tuple(numbers)
+
+        if re.search(r'\(', right_part):  # 右边有括号 → Player2
+            # 如果左右都有，取最后一个括号内容
+            idx = 1 if len(break_matches) > 1 else 0
+            numbers = [int(x) for x in re.findall(r'\d+', break_matches[idx])]
+            p2_break = tuple(numbers)
+
+    # 清理所有括号内容后提取主比分
+    frame_clean = re.sub(r'\(.*?\)', '', frame)
+    match = re.search(r'(\d+)\s*-\s*(\d+)', frame_clean)
+
+    if match:
+        s1 = int(match.group(1))
+        s2 = int(match.group(2))
+        main_score = (s1, s2)
+        return main_score, p1_break, p2_break
+
+    return None, None, None
 
 def get_date_period(date_str):
     """
@@ -182,4 +230,43 @@ def clean_scores(df):
     df["scores"] = df["scores"].apply(parse_frame_score)
 
 
+from contextlib import redirect_stdout
+import sys
 
+
+def run_and_save_output(func, output_file=r"C:\Users\赵梓健\PyCharmMiscProject\snooker predict\模式识别输出.txt"):
+    """运行函数并把所有输出保存到文件"""
+    with open(output_file, "w", encoding="utf-8") as f:
+        with redirect_stdout(f):
+            try:
+                func()  # 执行你的主函数
+            except Exception as e:
+                print(f"运行出错: {e}", file=sys.stderr)  # 错误信息也保存
+
+    print(f"✅ 所有输出已保存到: {output_file}")
+
+
+def switch_score(score: str):
+    """
+    将比分字符串左右对调
+    示例: "10-8; 9-11; 12-7" → "8-10; 11-9; 7-12"
+    """
+    if not isinstance(score, str) or not score.strip():
+        return None
+
+    # 按分号分割每一局比分
+    frames = [f.strip() for f in score.strip().split(';') if f.strip()]
+
+    switched = []
+    for frame in frames:
+        if '-' not in frame:
+            switched.append(frame)  # 没有 '-' 的保持原样
+            continue
+
+        # 左右对调
+        left, right = frame.split('-', 1)  # 只按第一个 '-' 分割
+        switched.append(f"{right.strip()}-{left.strip()}")
+
+    # 重新拼接
+    result = "; ".join(switched)
+    return result

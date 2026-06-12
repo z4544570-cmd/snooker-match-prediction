@@ -90,6 +90,7 @@ def agg_extract(df1, df2, df3):#比赛，赛事，球员
     # Join 赛事信息
     df_agg = df1.join(df2.set_index('tourn_id'), on='tourn_id', how='inner')
 
+
     df_agg = df_agg[df_agg["scores"].apply(valid_scores)].copy()
 
 
